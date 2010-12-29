@@ -1,0 +1,48 @@
+<?php
+
+/**
+ * Implements hook_field_widget_info().
+ */
+function commerce_dateprice_field_widget_info() {
+  return array(
+    'commerce_price_date' => array(
+      'label' => t('Price with start and end date'),
+      'field types' => array('commerce_price'),
+      'settings' => array(
+        'currency_code' => 'default',
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_widget_settings_form().
+ */
+function commerce_dateprice_field_widget_settings_form($field, $instance) {
+  return commerce_price_field_widget_settings_form($field, $instance);
+}
+
+/**
+ * Implements hook_field_widget_form().
+ */
+function commerce_dateprice_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
+  // Start with a standard full price widget.
+  $instance['widget']['type'] = 'commerce_price_full';
+  $element = commerce_price_field_widget_form($form, $form_state, $field, $instance, $langcode, $items, $delta, $element);
+
+  // Add two date fields to that.
+  $element['data']['dateprice']['start'] = array(
+    '#type' => 'date_text',
+    '#title' => 'Start date',
+    '#default_value' => isset($items[$delta]['data']['dateprice']['start']) ? $items[$delta]['data']['dateprice']['start'] : '',
+    '#date_format' => 'Y-m-d H:i',
+  );
+  $element['data']['dateprice']['end'] = array(
+    '#type' => 'date_text',
+    '#title' => 'End date',
+    '#default_value' => isset($items[$delta]['data']['dateprice']['end']) ? $items[$delta]['data']['dateprice']['end'] : '',
+    '#date_format' => 'Y-m-d H:i',
+  );
+
+  return $element;
+}

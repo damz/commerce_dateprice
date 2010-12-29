@@ -1,0 +1,13 @@
+; $Id$
+name = Date-based Prices
+description = Defines schedulable pricing strategies.
+package = Commerce (extra)
+dependencies[] = commerce
+dependencies[] = commerce_price
+dependencies[] = date_api
+dependencies[] = rules
+core = 7.x
+
+; Base module files
+files[] = commerce_dateprice.module
+files[] = commerce_dateprice.install
